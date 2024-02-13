@@ -1,8 +1,12 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include "dbusmanager.h"
+
 int main(int argc, char *argv[])
 {
+    qmlRegisterType<DbusManager>("sgy.pine.screenlock", 1, 0, "DbusManager");
+
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;

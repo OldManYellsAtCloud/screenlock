@@ -1,11 +1,34 @@
 import QtQuick
 import QtQuick.Controls
 
+import sgy.pine.screenlock
+
 Window {
     id: root
     visible: true
     flags: Qt.WA_TranslucentBackground |  Qt.ToolTip | Qt.FramelessWindowHint
     color: "transparent"
+
+    function hideAndStopTimer(){
+        root.visible = false
+        timeUpdater.stop()
+    }
+
+    function showAndStartTimer(){
+        root.visible = true
+        timeUpdater.start()
+    }
+
+    DbusManager {
+        id: dbusManager
+        onLockStateChanged: function(state){
+            if (!state){
+                hideAndStopTimer()
+            } else {
+                showAndStartTimer()
+            }
+        }
+    }
 
     Text {
         id: dateText
@@ -24,8 +47,10 @@ Window {
     }
 
     Timer {
-        interval: 2000
-        running: true
+        id: timeUpdater
+        interval: 1000
+        running: root.visible
+        repeat: true
         triggeredOnStart: true
         onTriggered: {
             // left pad with 0s, up to 2 chars
@@ -52,10 +77,9 @@ Window {
         onPressedChanged: {
             if (!pressed) {
                 if (value > 80) {
-                    Qt.callLater(Qt.quit)
-                } else {
-                    value = 0
+                    hideAndStopTimer()
                 }
+                value = 0
             }
         }
 
