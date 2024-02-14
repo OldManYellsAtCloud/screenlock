@@ -25,6 +25,7 @@ Window {
             if (!state){
                 hideAndStopTimer()
             } else {
+                dbusManager.screenLocked()
                 showAndStartTimer()
             }
         }
@@ -77,6 +78,7 @@ Window {
         onPressedChanged: {
             if (!pressed) {
                 if (value > 80) {
+                    dbusManager.screenUnlocked()
                     hideAndStopTimer()
                 }
                 value = 0
