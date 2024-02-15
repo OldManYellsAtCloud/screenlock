@@ -5,10 +5,10 @@
 DbusManager::DbusManager(QObject *parent)
     : QObject{parent}
 {
-    dbusProxy = sdbus::createProxy(BUTTOND_DBUS_SERVICE_NAME, BUTTOND_DBUS_OBJECT_PATH);
+    dbusProxy = sdbus::createProxy(DBUS_SERVICE_NAME, DBUS_OBJECT_PATH);
     signalHandler = [&](sdbus::Signal &signal){onLockStateChanged(signal);};
 
-    dbusProxy->registerSignalHandler(BUTTOND_DBUS_INTERFACE_NAME, "screenOn", signalHandler);
+    dbusProxy->registerSignalHandler(DBUS_INTERFACE_NAME, "screenOn", signalHandler);
     dbusProxy->finishRegistration();
 
     dbusConnection = sdbus::createSystemBusConnection(DBUS_SERVICE_NAME);
