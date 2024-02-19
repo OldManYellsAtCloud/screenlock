@@ -5,10 +5,10 @@
 DbusManager::DbusManager(QObject *parent)
     : QObject{parent}
 {
-    dbusProxy = sdbus::createProxy(DBUS_SERVICE_NAME, DBUS_OBJECT_PATH);
-    signalHandler = [&](sdbus::Signal &signal){onLockStateChanged(signal);};
+    dbusProxy = sdbus::createProxy(BUTTON_DBUS_SERVICE_NAME, BUTTON_DBUS_OBJECT_PATH);
+    signalHandler = [&](sdbus::Signal &signal){onPowerButtonReleased(signal);};
 
-    dbusProxy->registerSignalHandler(DBUS_INTERFACE_NAME, "screenOn", signalHandler);
+    dbusProxy->registerSignalHandler(BUTTON_DBUS_INTERFACE_NAME, "powerButtonRelease", signalHandler);
     dbusProxy->finishRegistration();
 
     dbusConnection = sdbus::createSystemBusConnection(DBUS_SERVICE_NAME);
@@ -27,11 +27,10 @@ void DbusManager::screenLocked()
     dbusObject->emitSignal(signal);
 }
 
-void DbusManager::onLockStateChanged(sdbus::Signal &signal)
+void DbusManager::onPowerButtonReleased(sdbus::Signal &signal)
 {
-    bool lockState;
-    signal >> lockState;
-    emit lockStateChanged(lockState);
+    LOG("Power button press signal arrived");
+    emit lockStateChanged(true);
 }
 
 void DbusManager::screenUnlocked()

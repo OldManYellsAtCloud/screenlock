@@ -10,13 +10,16 @@
 #define DBUS_OBJECT_PATH    "/org/gspine/display"
 #define DBUS_INTERFACE_NAME "org.gspine.display"
 
+#define BUTTON_DBUS_SERVICE_NAME   "org.gspine.button"
+#define BUTTON_DBUS_OBJECT_PATH    "/org/gspine/button"
+#define BUTTON_DBUS_INTERFACE_NAME "org.gspine.button"
 
 class DbusManager : public QObject
 {
     Q_OBJECT
     QML_ELEMENT
 private:
-    void onLockStateChanged(sdbus::Signal& signal);
+    void onPowerButtonReleased(sdbus::Signal& signal);
     std::function<void(sdbus::Signal&)> signalHandler;
     std::unique_ptr<sdbus::IProxy> dbusProxy;
 
