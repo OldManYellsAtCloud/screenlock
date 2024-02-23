@@ -70,10 +70,19 @@ Window {
         value: 0
         from: 0
         to: 100
+        live: false
 
         y: parent.height * 0.90
         x: parent.width * 0.05
         width: parent.width * 0.9
+
+        NumberAnimation {
+            id: sliderResetAnimation
+            target: unlockSlider
+            properties: "value"
+            to: 0
+            duration: 100
+        }
 
         onPressedChanged: {
             if (!pressed) {
@@ -81,8 +90,15 @@ Window {
                     dbusManager.screenUnlocked()
                     hideAndStopTimer()
                 }
-                value = 0
+                sliderResetAnimation.start()
             }
+        }
+
+        // If it is not here, sometimes (often) the slider gets
+        // "stuck" after release, instead of firing the corresponding
+        // action - apparently value can change without pressing also.
+        onValueChanged: {
+            onPressedChanged()
         }
 
         handle: Rectangle {
