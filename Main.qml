@@ -8,15 +8,29 @@ Window {
     visible: true
     flags: Qt.WA_TranslucentBackground |  Qt.ToolTip | Qt.FramelessWindowHint
     color: "transparent"
+    property double globalOpacity: 1.0
 
     function hideAndStopTimer(){
-        root.visible = false
+        visibleAnimation.start()
+        //root.visible = false
         timeUpdater.stop()
     }
 
     function showAndStartTimer(){
         root.visible = true
+        globalOpacity = 1.0
         timeUpdater.start()
+    }
+
+    NumberAnimation {
+        id: visibleAnimation
+        target: root
+        properties: "globalOpacity"
+        to: 0.0
+        duration: 200
+        onFinished: {
+            root.visible = false
+        }
     }
 
     DbusManager {
@@ -37,6 +51,7 @@ Window {
         color: "white"
         font.pixelSize: 36
         topPadding: parent.height * 0.15
+        opacity: globalOpacity
     }
 
     Text {
@@ -45,6 +60,7 @@ Window {
         anchors.top: dateText.bottom
         color: "white"
         font.pixelSize: 48
+        opacity: globalOpacity
     }
 
     Timer {
@@ -71,6 +87,7 @@ Window {
         from: 0
         to: 100
         live: false
+        opacity: globalOpacity
 
         y: parent.height * 0.90
         x: parent.width * 0.05
