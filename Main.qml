@@ -12,8 +12,8 @@ Window {
 
     function hideAndStopTimer(){
         visibleAnimation.start()
-        //root.visible = false
         timeUpdater.stop()
+        idleTimer.stop()
     }
 
     function showAndStartTimer(){
@@ -21,6 +21,8 @@ Window {
         globalOpacity = 1.0
         timeUpdater.start()
     }
+
+    Component.onCompleted: idleTimer.start()
 
     NumberAnimation {
         id: visibleAnimation
@@ -41,6 +43,15 @@ Window {
             } else {
                 dbusManager.screenLocked()
                 showAndStartTimer()
+            }
+        }
+
+        onScreenStateChanged: function(screenIsOff){
+            if (screenIsOff){
+                hideAndStopTimer();
+            } else {
+                showAndStartTimer();
+                idleTimer.restart();
             }
         }
     }
@@ -76,8 +87,18 @@ Window {
             }
 
             var d = new Date()
-            dateText.text = d.getFullYear() + "-"  + padWith0(d.getMonth()) + "-" + padWith0(d.getDate())
+            dateText.text = d.getFullYear() + "-"  + padWith0(d.getMonth() + 1) + "-" + padWith0(d.getDate())
             timeText.text = padWith0(d.getHours()) + ":" + padWith0(d.getMinutes())
+        }
+    }
+
+    Timer {
+        id: idleTimer
+        interval: 1000 * 20 // 20sec
+        running: false
+        repeat: false
+        onTriggered: {
+            dbusManager.idleTimeout()
         }
     }
 
@@ -104,6 +125,7 @@ Window {
         onPressedChanged: {
             if (!pressed) {
                 if (value > 80) {
+                    idleTimer.stop()
                     dbusManager.screenUnlocked()
                     hideAndStopTimer()
                 }
@@ -127,7 +149,5 @@ Window {
             color: unlockSlider.pressed ? "#f0f0f0" : "#f6f6f6"
             border.color: "#bdbebf"
         }
-
-
     }
 }

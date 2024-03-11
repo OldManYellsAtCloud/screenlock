@@ -19,20 +19,27 @@ class DbusManager : public QObject
     Q_OBJECT
     QML_ELEMENT
 private:
-    void onPowerButtonReleased(sdbus::Signal& signal);
-    std::function<void(sdbus::Signal&)> signalHandler;
-    std::unique_ptr<sdbus::IProxy> dbusProxy;
+    void onPowerButtonReleasedSignal(sdbus::Signal& signal);
+    void onScreenStateChangedSignal(sdbus::Signal& signal);
+    std::function<void(sdbus::Signal&)> buttonSignalHandler;
+    std::function<void(sdbus::Signal&)> screenSignalHandler;
+    std::unique_ptr<sdbus::IProxy> dbusProxyBtn;
+    std::unique_ptr<sdbus::IProxy> dbusProxyScr;
 
     std::unique_ptr<sdbus::IObject> dbusObject;
     std::unique_ptr<sdbus::IConnection> dbusConnection;
+
+    bool locked;
 
 public:
     explicit DbusManager(QObject *parent = nullptr);
     Q_INVOKABLE void screenLocked();
     Q_INVOKABLE void screenUnlocked();
+    Q_INVOKABLE void idleTimeout();
 
 signals:
     void lockStateChanged(bool state);
+    void screenStateChanged(bool state);
 
 };
 
