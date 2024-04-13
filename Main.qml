@@ -109,6 +109,7 @@ Window {
         to: 100
         live: false
         opacity: globalOpacity
+        focusPolicy: Qt.NoFocus
 
         y: parent.height * 0.90
         x: parent.width * 0.05
