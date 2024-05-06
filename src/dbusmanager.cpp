@@ -46,7 +46,7 @@ void DbusManager::onScreenStateChangedSignal(sdbus::Signal &signal)
 {
     bool state;
     signal >> state;
-    DEBUG("Screen state change signal arrived: {}", state);
+    DBG("Screen state change signal arrived: {}", state);
     emit screenStateChanged(state);
 }
 
