@@ -138,15 +138,15 @@ Window {
         // "stuck" after release, instead of firing the corresponding
         // action - apparently value can change without pressing also.
         onValueChanged: {
-            onPressedChanged()
+            pressedChanged()
         }
 
         handle: Rectangle {
             x: unlockSlider.leftPadding + unlockSlider.visualPosition * (unlockSlider.availableWidth - width)
             y: unlockSlider.topPadding + unlockSlider.availableHeight / 2 - height / 2
-            implicitWidth: 40
-            implicitHeight: 40
-            radius: 20
+            implicitWidth: 60
+            implicitHeight: 60
+            radius: 30
             color: unlockSlider.pressed ? "#f0f0f0" : "#f6f6f6"
             border.color: "#bdbebf"
         }
