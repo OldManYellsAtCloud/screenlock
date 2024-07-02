@@ -21,8 +21,8 @@ class DbusManager : public QObject
 private:
     void onPowerButtonReleasedSignal(sdbus::Signal& signal);
     void onScreenStateChangedSignal(sdbus::Signal& signal);
-    std::function<void(sdbus::Signal&)> buttonSignalHandler;
-    std::function<void(sdbus::Signal&)> screenSignalHandler;
+    std::function<void(sdbus::Signal)> buttonSignalHandler;
+    std::function<void(sdbus::Signal)> screenSignalHandler;
     std::unique_ptr<sdbus::IProxy> dbusProxyBtn;
     std::unique_ptr<sdbus::IProxy> dbusProxyScr;
 
