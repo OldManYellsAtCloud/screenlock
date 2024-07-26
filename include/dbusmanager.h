@@ -10,9 +10,9 @@
 #define DBUS_OBJECT_PATH    "/org/gspine/display"
 #define DBUS_INTERFACE_NAME "org.gspine.display"
 
-#define BUTTON_DBUS_SERVICE_NAME   "org.gspine.button"
-#define BUTTON_DBUS_OBJECT_PATH    "/org/gspine/button"
-#define BUTTON_DBUS_INTERFACE_NAME "org.gspine.button"
+#define BUTTON_DBUS_SERVICE_NAME   "org.gspine.hardware"
+#define BUTTON_DBUS_OBJECT_PATH    "/org/gspine/hardware"
+#define BUTTON_DBUS_INTERFACE_NAME "org.gspine.Hardware"
 
 class DbusManager : public QObject
 {
