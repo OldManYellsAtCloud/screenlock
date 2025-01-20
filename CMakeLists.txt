@@ -6,7 +6,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
-find_package(sdbus-c++)
+find_package(sdbus-c++ REQUIRED)
+find_package(loglib REQUIRED)
 
 qt_standard_project_setup()
 
@@ -25,7 +26,7 @@ qt_add_qml_module(appscreenlock
 target_include_directories(appscreenlock PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_link_libraries(appscreenlock
-    PRIVATE Qt6::Quick SDBusCpp::sdbus-c++
+    PRIVATE Qt6::Quick SDBusCpp::sdbus-c++ loglib
 )
 
 include(GNUInstallDirs)

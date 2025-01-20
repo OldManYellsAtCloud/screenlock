@@ -1,10 +1,14 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <loglib/loglib.h>
 
 #include "dbusmanager.h"
 
 int main(int argc, char *argv[])
 {
+    loglib::logger().setName("screenlock");
+    loglib::logger().registerLogger(logging::LOGGER_FILE);
+
     qmlRegisterType<DbusManager>("sgy.pine.screenlock", 1, 0, "DbusManager");
 
     QGuiApplication app(argc, argv);

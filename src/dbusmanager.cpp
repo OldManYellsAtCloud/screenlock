@@ -1,6 +1,6 @@
 #include "dbusmanager.h"
 
-#include <loglibrary.h>
+#include <loglib/loglib.h>
 
 DbusManager::DbusManager(QObject *parent)
     : QObject{parent}
@@ -35,7 +35,7 @@ void DbusManager::screenLocked()
 
 void DbusManager::onPowerButtonReleasedSignal(sdbus::Signal &signal)
 {
-    LOG("Power button signal arrived");
+    LOG_INFO("Power button signal arrived");
     if (!locked){
         emit lockStateChanged(true);
     }
@@ -45,7 +45,7 @@ void DbusManager::onScreenStateChangedSignal(sdbus::Signal &signal)
 {
     bool state;
     signal >> state;
-    DBG("Screen state change signal arrived: {}", state);
+    LOG_DEBUG_F("Screen state change signal arrived: {}", state);
     emit screenStateChanged(state);
 }
 
